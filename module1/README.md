@@ -80,7 +80,7 @@ hostnamectl set-hostname br-srv.au-team.irpo && exec bash
 ```
 ---
 
-## Диапазоны IP-адресов по RFC1918
+#### Диапазоны IP-адресов по RFC1918
 
 | Диапазон             | CIDR           | Количество адресов | Пример диапазона                  |
 |----------------------|----------------|--------------------|-----------------------------------|
@@ -90,7 +90,7 @@ hostnamectl set-hostname br-srv.au-team.irpo && exec bash
 
 ---
 
-## Разделение IP-адресов по VLAN
+#### Разделение IP-адресов по VLAN
 
 | VLAN ID | Назначение      | Сеть         | Маска | Количество адресов | Диапазон IP-адресов            |
 |---------|-----------------|--------------|-------|--------------------|--------------------------------|
@@ -100,7 +100,7 @@ hostnamectl set-hostname br-srv.au-team.irpo && exec bash
 
 ---
 
-## Адресация и шлюзы для настройки ISP
+#### Адресация и шлюзы для настройки ISP
 
 | Подключение         | Сеть           | IP-адрес (устройство)    | IP-адрес (ISP)   | Шлюз по умолчанию (для устройства внутри сети) |
 |---------------------|----------------|--------------------------|------------------|-------------------------------------------------|
@@ -109,7 +109,7 @@ hostnamectl set-hostname br-srv.au-team.irpo && exec bash
 
 ---
 
-## Табличка адресов ip 
+#### Табличка адресов ip 
 | Имя              | IP                               | Шлюз         |
 |------------------|-----------------------------------|--------------|
 | ISP-HQ           | 172.16.4.2/28                     | 172.16.4.1/28 |
@@ -128,13 +128,25 @@ https://jodies.de/ipcalc - ip-калькулятор
 
 ---
 
-> Адресация для **ISP** взята из следующего задания
-
 <br/>
 
-#### Наcтройка IP-адресации на **HQ-SRV**, **BR-SRV**, **HQ-CLI** (настройка IP-адресации на **ISP** проводится в [следующем задании](https://github.com/trichh-ayou/instruction/blob/main/module1/README.md#%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-2))
+#### Наcтройка IP-адресации на устройствах
 
-Приводим файлы **`options`**, **`ipv4address`**, **`ipv4route`** в директории **`/etc/net/ifaces/*имя интерфейса*/`** к следующему виду:
+Приводим файлы **`options`**, **`ipv4address`**, **`ipv4route`**, **`resolv.conf`** в директории **`/etc/net/ifaces/*имя интерфейса*/`** к следующему виду:
+
+---
+
+1)ISP
+
+/etc/net/ifacec/ens192
+> **`options`**
+```yml
+BOOTPROTO=dhcp
+TYPE=eth
+DISABLED=no
+CONFIG_IPV4=yes
+```
+/etc/net/ifacec/ens224
 > **`options`**
 ```yml
 DISABLED=no
@@ -145,88 +157,88 @@ CONFIG_IPV4=yes
 
 > **`ipv4address`**
 ```yml
-192.168.100.62/26
+172.16.4.1/28
+```
+
+/etc/net/ifacec/ens256
+> **`options`**
+```yml
+DISABLED=no
+TYPE=eth
+BOOTPROTO=static
+CONFIG_IPV4=yes
+```
+
+> **`ipv4address`**
+```yml
+172.16.5.1/28
+```
+
+Отредактируйте файл `/etc/net/sysctl.conf`:
+Измените строку:
+```yml
+net.ipv4.ip_forward = 0
+```
+на:
+```yml
+net.ipv4.ip_forward = 1
+```
+Примените изменения:
+```yml
+systemctl restart network
+```
+
+---
+
+HQ-RTR
+> **`options`**
+```yml
+DISABLED=no
+TYPE=eth
+BOOTPROTO=static
+CONFIG_IPV4=yes
+```
+
+> **`ipv4address`**
+```yml
+172.16.4.2/28
 ```
 
 > **`ipv4route`**
 ```yml
-default via 192.168.100.1
+default via 172.16.4.1
 ```
 
-<br/>
-
-#### Настройка IP-адресации на EcoRouter
-
-Настраиваем интерфейс на **HQ-RTR**, который смотрит в сторону **ISP**:
-
-- Создаем логический интерфейс:
+> **`resolv.conf`**
 ```yml
-interface int0
-  description "to isp"
-  ip address 172.16.4.2/28
+nameserver 77.88.8.8
 ```
 
-- Настраиваем физический порт:
+---
+
+BR-RTR
+> **`options`**
 ```yml
-port ge0
-  service-instance ge0/int0
-    encapsulation untagged
+DISABLED=no
+TYPE=eth
+BOOTPROTO=static
+CONFIG_IPV4=yes
 ```
 
-- Объединеняем порт с интерфейсом:
+> **`ipv4address`**
 ```yml
-interface int0
-  connect port ge0 service-instance ge0/int0
+172.16.5.2/28
 ```
 
-<br/>
-
-Настраиваем интерфейсы на **HQ-RTR**, которые смотрят в сторону **HQ-SRV** и **HQ-CLI** (с разделением на VLAN):
-
-- Создаем два интерфейса:
+> **`ipv4route`**
 ```yml
-interface int1
-  description "to hq-srv"
-  ip address 192.168.100.1/26
-!
-interface int2
-  description "to hq-cli"
-  ip address 192.168.200.1/28
+default via 172.16.5.1
 ```
 
-- Настраиваем порт:
+> **`resolv.conf`**
 ```yml
-port ge1
-  service-instance ge1/int1
-    encapsulation dot1q 100
-    rewrite pop 1
-  service-instance ge1/int2
-    encapsulation dot1q 200
-    rewrite pop 1
+nameserver 77.88.8.8
 ```
-
-- Объединяем порт с интерфейсами:
-```yml
-interface int1
-  connect port ge1 service-instance ge1/int1
-!
-interface int2
-  connect port ge1 service-instance ge1/int2
-```
-
-<br/>
-
-#### Адресация на BR-RTR (без разделения на VLAN) настраивается аналогично примеру выше
-
-<br/>
-
-#### Добавление маршрута по умолчанию в EcoRouter
-
-Прописываем следующее:
-```yml
-ip route 0.0.0.0 0.0.0.0 *адрес шлюза*
-```
-
 </details>
 
 <br/>
