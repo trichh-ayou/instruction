@@ -65,27 +65,19 @@
 <summary>Решение</summary>
 <br/>
 
-**Полное доменное имя можно посмотреть в таблице для [Задания 10](https://github.com/damh66/demo2025/tree/main/module1#%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-10)**
+**Полное доменное имя можно посмотреть в таблице для [Задания 10](https://github.com/trichh-ayou/instruction/blob/main/module1/README.md#%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-10)**
 
 <br/>
 
 #### Настройка имен устройств на ALT Linux
 ```yml
-hostnamectl set-hostname <FQDN>; exec bash
+hostnamectl set-hostname isp && exec bash
+hostnamectl set-hostname hq-rtr.au-team.irpo && exec bash
+hostnamectl set-hostname br-rtr.au-team.irpo && exec bash
+hostnamectl set-hostname hq-srv.au-team.irpo && exec bash
+hostnamectl set-hostname hq-cli.au-team.irpo && exec bash
+hostnamectl set-hostname br-srv.au-team.irpo && exec bash
 ```
-> FQDN (Fully Qualified Domain Name) - полное доменное имя
-> 
-> `exec bash` - обновление оболочки
-
-<br/>
-
-#### Настройка имен устройств на EcoRouter
-
-Переходим в режим конфигурации и прописываем следующее:
-```yml
-hostname <name>
-```
-> `<name>` - желаемое имя устройства
 
 <br/>
 
@@ -217,26 +209,26 @@ hostname <name>
 
 <br/>
 
-#### Наcтройка IP-адресации на **HQ-SRV**, **BR-SRV**, **HQ-CLI** (настройка IP-адресации на **ISP** проводится в [следующем задании](https://github.com/damh66/demo2025/tree/main/module1#%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-2))
+#### Наcтройка IP-адресации на **HQ-SRV**, **BR-SRV**, **HQ-CLI** (настройка IP-адресации на **ISP** проводится в [следующем задании](https://github.com/trichh-ayou/instruction/blob/main/module1/README.md#%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-2))
 
 Приводим файлы **`options`**, **`ipv4address`**, **`ipv4route`** в директории **`/etc/net/ifaces/*имя интерфейса*/`** к следующему виду (в примере **HQ-SRV**):
+> **`options`**
 ```yml
 DISABLED=no
 TYPE=eth
 BOOTPROTO=static
 CONFIG_IPV4=yes
 ```
-> **`options`**
 
+> **`ipv4address`**
 ```yml
 192.168.100.62/26
 ```
-> **`ipv4address`**
 
+> **`ipv4route`**
 ```yml
 default via 192.168.100.1
 ```
-> **`ipv4route`**
 
 <br/>
 
