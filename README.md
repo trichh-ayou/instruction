@@ -10,7 +10,7 @@
 
 - **[Модуль 1](https://github.com/trichh-ayou/instruction/tree/main/module1)**
 
-- **[Модуль 2](https://github.com/trichh-ayou/instruction/tree/main/modul2)**
+- **[Модуль 2](https://github.com/trichh-ayou/instruction/tree/main/module2)**
 
 #
 
