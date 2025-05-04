@@ -136,7 +136,7 @@ https://jodies.de/ipcalc - ip-калькулятор
 
 ---
 
-####1)ISP
+### 1)ISP
 
 /etc/net/ifacec/ens192
 > **`options`**
@@ -201,7 +201,7 @@ iptables-save > /etc/sysconfig/iptables
 systemctl enable --now iptables
 ```
 ---
-####2)HQ-RTR
+### 2)HQ-RTR
 
 ---
 /etc/net/ifacec/ens192
@@ -306,7 +306,7 @@ systemctl enable --now iptables
 ```
 ---
 
-####3)BR-RTR
+### 3)BR-RTR
 
 /etc/net/ifacec/ens192
 > **`options`**
