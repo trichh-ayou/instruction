@@ -32,11 +32,8 @@
 
 <br/>
 
-<p align="center">
-  ![image](https://github.com/user-attachments/assets/b4717a91-da11-457f-8fff-40d00362571c)
+![image](https://github.com/user-attachments/assets/9dc4e6ac-7c11-49ab-b196-87ff2452f47e)
 
-<p\>
-<p align="center"><strong>Топология</strong></p>
 
 <br/>
 
