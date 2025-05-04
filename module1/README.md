@@ -138,7 +138,7 @@ https://jodies.de/ipcalc - ip-калькулятор
 
 ### 1)ISP
 
-/etc/net/ifacec/ens192
+### /etc/net/ifacec/ens192
 > **`options`**
 ```yml
 BOOTPROTO=dhcp
@@ -146,7 +146,9 @@ TYPE=eth
 DISABLED=no
 CONFIG_IPV4=yes
 ```
-/etc/net/ifacec/ens224
+---
+
+### /etc/net/ifacec/ens224
 > **`options`**
 ```yml
 DISABLED=no
@@ -154,13 +156,13 @@ TYPE=eth
 BOOTPROTO=static
 CONFIG_IPV4=yes
 ```
-
 > **`ipv4address`**
 ```yml
 172.16.4.1/28
 ```
+---
 
-/etc/net/ifacec/ens256
+### /etc/net/ifacec/ens256
 > **`options`**
 ```yml
 DISABLED=no
@@ -173,6 +175,7 @@ CONFIG_IPV4=yes
 ```yml
 172.16.5.1/28
 ```
+---
 
 Отредактируйте файл `/etc/net/sysctl.conf`:
 
@@ -190,7 +193,7 @@ systemctl restart network
 ```
 ---
 
-NAT
+### NAT
 
 ```yml
 iptables -t nat -A POSTROUTING -o ens192 -s 172.16.4.0/28 -j MASQUERADE
@@ -203,8 +206,7 @@ systemctl enable --now iptables
 ---
 ### 2)HQ-RTR
 
----
-/etc/net/ifacec/ens192
+### /etc/net/ifacec/ens192
 > **`options`**
 ```yml
 DISABLED=no
@@ -227,7 +229,8 @@ default via 172.16.4.1
 nameserver 77.88.8.8
 ```
 ---
-/etc/net/ifacec/ens224.100
+
+### /etc/net/ifacec/ens224.100
 > **`options`**
 ```yml
 TYPE=vlan
@@ -244,7 +247,8 @@ CONFIG_IPV4=yes
 192.168.100.1/26
 ```
 ---
-/etc/net/ifacec/ens224.999
+
+### /etc/net/ifacec/ens224.999
 > **`options`**
 ```yml
 TYPE=vlan
@@ -261,7 +265,8 @@ CONFIG_IPV4=yes
 192.168.99.1/29
 ```
 ---
-/etc/net/ifacec/ens256.200
+
+### /etc/net/ifacec/ens256.200
 > **`options`**
 ```yml
 TYPE=vlan
@@ -278,6 +283,7 @@ CONFIG_IPV4=yes
 192.168.200.1/28
 ```
 ---
+
 Отредактируйте файл `/etc/net/sysctl.conf`:
 
 Измените строку:
@@ -293,7 +299,8 @@ net.ipv4.ip_forward = 1
 systemctl restart network
 ```
 ---
-NAT
+
+### NAT
 
 ```yml
 iptables -t nat -A POSTROUTING -o ens192 -s 192.168.200.1/28 -j MASQUERADE
@@ -308,7 +315,7 @@ systemctl enable --now iptables
 
 ### 3)BR-RTR
 
-/etc/net/ifacec/ens192
+### /etc/net/ifacec/ens192
 > **`options`**
 ```yml
 DISABLED=no
@@ -332,7 +339,8 @@ default via 172.16.5.1
 nameserver 77.88.8.8
 ```
 ---
-/etc/net/ifacec/ens224
+
+### /etc/net/ifacec/ens224
 > **`options`**
 ```yml
 DISABLED=no
@@ -346,6 +354,7 @@ CONFIG_IPV4=yes
 192.168.0.1/27
 ```
 ---
+
 Отредактируйте файл `/etc/net/sysctl.conf`:
 
 Измените строку:
@@ -361,7 +370,7 @@ net.ipv4.ip_forward = 1
 systemctl restart network
 ```
 ---
-NAT
+### NAT
 
 ```yml
 iptables -t nat -A POSTROUTING -o ens192 -s 192.168.0.0/27 -j MASQUERADE
