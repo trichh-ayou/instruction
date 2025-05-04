@@ -1,6 +1,6 @@
 # *Демонстрационный экзамен 09.02.06 2025*
 
-### **[Задание](https://github.com/damh66/demo2025/blob/main/%D0%9A%D0%9E%D0%94%2009.02.06-1-2025%20%D0%A2%D0%BE%D0%BC%201%20(%D1%81%D0%BE%D0%BA%D1%80).pdf)**
+### **[Задание](https://github.com/trichh-ayou/instruction/blob/main/%D0%9A%D0%9E%D0%94%2009.02.06-1-2025%20%D0%A2%D0%BE%D0%BC%201%20(%D1%81%D0%BE%D0%BA%D1%80).pdf).pdf)**
 
 #
 
@@ -8,9 +8,9 @@
 
 ### Решение модулей
 
-- **[Модуль 1](https://github.com/damh66/demo2025/tree/main/module1)**
+- **[Модуль 1](https://github.com/trichh-ayou/instruction/tree/main/module1)**
 
-- **[Модуль 2](https://github.com/damh66/demo2025/tree/main/module2)**
+- **[Модуль 2](https://github.com/trichh-ayou/instruction/tree/main/modul2)**
 
 #
 
