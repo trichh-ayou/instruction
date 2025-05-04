@@ -33,7 +33,8 @@
 <br/>
 
 <p align="center">
-  ![image](https://github.com/user-attachments/assets/6b8039fa-6f16-47d4-bb6e-c34f203e96c8)
+  ![image](https://github.com/user-attachments/assets/b4717a91-da11-457f-8fff-40d00362571c)
+
 <p\>
 <p align="center"><strong>Топология</strong></p>
 
