@@ -33,7 +33,7 @@
 <br/>
 
 <p align="center">
-  <img width="450" height="600" src="https://github.com/user-attachments/assets/8ee209f5-6fed-4f03-bbe3-e202155957b3"
+  [image](https://github.com/user-attachments/assets/6b8039fa-6f16-47d4-bb6e-c34f203e96c8)
 <p\>
 <p align="center"><strong>Топология</strong></p>
 
