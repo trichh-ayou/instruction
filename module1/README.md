@@ -90,131 +90,43 @@ hostnamectl set-hostname br-srv.au-team.irpo && exec bash
 
 ---
 
-<br/>
+## Разделение IP-адресов по VLAN
 
-<table align="center">
-  <tr>
-    <td align="center">Сеть</td>
-    <td align="center">Адрес подсети</td>
-    <td align="center">Пул-адресов</td>
-  </tr>
-  <tr>
-    <td align="center">SRV-Net (VLAN 100)</td>
-    <td align="center">192.168.100.0/26</td>
-    <td align="center">192.168.100.1 - 192.168.100.62</td>
-  </tr>
-  <tr>
-    <td align="center">CLI-Net (VLAN 200)</td>
-    <td align="center">192.168.200.0/28</td>
-    <td align="center">192.168.200.1 - 192.168.200.14</td>
-  </tr>
-  <tr>
-    <td align="center">BR-Net</td>
-    <td align="center">192.168.0.0/27</td>
-    <td align="center">192.168.0.1 - 192.168.0.30</td>
-  </tr>
-  <tr>
-    <td align="center">MGMT (VLAN 999)</td>
-    <td align="center">192.168.99.0/29</td>
-    <td align="center">192.168.99.1 - 192.168.99.6</td>
-  </tr>
-  <tr>
-    <td align="center">ISP-HQ</td>
-    <td align="center">172.16.4.0/28</td>
-    <td align="center">172.16.4.1 - 172.16.4.14</td>
-  </tr>
-  <tr>
-    <td align="center">ISP-BR</td>
-    <td align="center">172.16.5.0/28</td>
-    <td align="center">172.16.5.1 - 172.16.5.14</td>
-  </tr>
-</table>
-<p align="center"><strong>Таблица подсетей</strong></p>
+| VLAN ID | Назначение      | Сеть         | Маска | Количество адресов | Диапазон IP-адресов            |
+|---------|-----------------|--------------|-------|--------------------|--------------------------------|
+| 100     | Офис HQ-SRV     | 192.168.100.0 | /26   | 64                 | 192.168.10.0 – 192.168.10.63    |
+| 200     | Офис HQ-CLI     | 192.168.200.0 | /28   | 16                 | 192.168.20.0 – 192.168.20.15    |
+| 999     | Сеть управления | 192.168.99.0 | /29   | 8                  | 192.168.99.0 – 192.168.99.7     |
 
-<br/>
+---
 
-<table align="center">
-  <tr>
-    <td align="center">Имя устройства</td>
-    <td align="center">Интерфейс</td>
-    <td align="center">IPv4/IPv6</td>
-    <td align="center" >Маска/Префикс</td>
-    <td align="center">Шлюз</td>
-  </tr>
-  <tr>
-    <td align="center" rowspan="3">ISP</td>
-    <td align="center">ens33</td>
-    <td align="center">10.12.28.5 (DHCP)</td>
-    <td align="center">/24</td>
-    <td align="center">10.12.28.254</td>
-  </tr>
-  <tr>
-    <td align="center">ens34</td>
-    <td align="center">172.16.5.1</td>
-    <td align="center">/28</td>
-    <td align="center"></td>
-  </tr>
-  <tr>
-    <td align="center">ens35</td>
-    <td align="center">172.16.4.1</td>
-    <td align="center">/28</td>
-    <td align="center"></td>
-  </tr>
-  <tr>
-    <td align="center" rowspan="3">HQ-RTR</td>
-    <td align="center">int0</td>
-    <td align="center">172.16.4.2</td>
-    <td align="center">/28</td>
-    <td align="center">172.16.4.1</td>
-  </tr>
-  <tr>
-    <td align="center">int1</td>
-    <td align="center">192.168.100.1</td>
-    <td align="center">/26</td>
-    <td align="center"></td>
-  </tr>
-  <tr>
-    <td align="center">int2</td>
-    <td align="center">192.168.200.1</td>
-    <td align="center">/28</td>
-    <td align="center"></td>
-  </tr>
-  <tr>
-    <td align="center" rowspan="2">BR-RTR</td>
-    <td align="center">int0</td>
-    <td align="center">172.16.5.2</td>
-    <td align="center">/28</td>
-    <td align="center">172.16.5.1</td>
-  </tr>
-  <tr>
-    <td align="center">int1</td>
-    <td align="center">192.168.0.1</td>
-    <td align="center">/27</td>
-    <td align="center"></td>
-  </tr>
-  <tr>
-    <td align="center">HQ-SRV</td>
-    <td align="center">ens33</td>
-    <td align="center">192.168.100.62</td>
-    <td align="center">/26</td>
-    <td align="center">192.168.100.1</td>
-  </tr>
-  <tr>
-    <td align="center">BR-SRV</td>
-    <td align="center">ens33</td>
-    <td align="center">192.168.0.30</td>
-    <td align="center">/27</td>
-    <td align="center">192.168.0.1</td>
-  </tr>
-  <tr>
-    <td align="center">HQ-CLI</td>
-    <td align="center">ens33</td>
-    <td align="center">192.168.200.14</td>
-    <td align="center">/28</td>
-    <td align="center">192.168.200.1</td>
-  </tr>
-</table>
-<p align="center"><strong>Таблица адресации</strong></p>
+## Адресация и шлюзы для настройки ISP
+
+| Подключение         | Сеть           | IP-адрес (устройство)    | IP-адрес (ISP)   | Шлюз по умолчанию (для устройства внутри сети) |
+|---------------------|----------------|--------------------------|------------------|-------------------------------------------------|
+| HQ-RTR – ISP        | 172.16.4.0/28  | 172.16.4.2 (HQ-RTR)      | 172.16.4.1       | 172.16.4.2                                      |
+| BR-RTR – ISP        | 172.16.5.0/28  | 172.16.5.2 (BR-RTR)      | 172.16.5.1       | 172.16.5.2                                      |
+
+---
+
+## Табличка адресов ip 
+| Имя              | IP                               | Шлюз         |
+|------------------|-----------------------------------|--------------|
+| ISP-HQ           | 172.16.4.2/28                     | 172.16.4.1/28 |
+| ISP-BR           | 172.16.5.2/28                     | 172.16.5.1/28 |
+| HQ-RTR (VLAN100)  | 192.168.100.1/26                 | 192.168.100.1 | 
+| HQ-RTR (VLAN200)  | 192.168.200.1/29                 | 192.168.200.1 |
+| HQ-RTR (VLAN999)  | 192.168.99.1/29                  | 192.168.99.1 | 
+| HQ-CLI           | 192.168.200.2/29                  | 192.168.20.1/29 |
+| HQ-SRV           | 192.168.100.2/26, 192.168.99.2/29 | 192.168.10.1/26, 192,168,99,1/29 |
+| BR-RTR           | 192.168.0.1/27                    | 172.16.5.2/28 |
+| BR-SRV           | 192.168.0.62/27                   | 192.168.0.1/27 |
+
+https://jodies.de/ipcalc - ip-калькулятор
+
+![image](https://github.com/user-attachments/assets/da181112-1d6d-4da9-bc8c-7bacc63d12d5)
+
+---
 
 > Адресация для **ISP** взята из следующего задания
 
@@ -222,7 +134,7 @@ hostnamectl set-hostname br-srv.au-team.irpo && exec bash
 
 #### Наcтройка IP-адресации на **HQ-SRV**, **BR-SRV**, **HQ-CLI** (настройка IP-адресации на **ISP** проводится в [следующем задании](https://github.com/trichh-ayou/instruction/blob/main/module1/README.md#%D0%B7%D0%B0%D0%B4%D0%B0%D0%BD%D0%B8%D0%B5-2))
 
-Приводим файлы **`options`**, **`ipv4address`**, **`ipv4route`** в директории **`/etc/net/ifaces/*имя интерфейса*/`** к следующему виду (в примере **HQ-SRV**):
+Приводим файлы **`options`**, **`ipv4address`**, **`ipv4route`** в директории **`/etc/net/ifaces/*имя интерфейса*/`** к следующему виду:
 > **`options`**
 ```yml
 DISABLED=no
